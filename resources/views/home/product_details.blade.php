@@ -2,95 +2,92 @@
 <html>
 
 <head>
- 
     @include('home.css')
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        .div_center{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
+        .hero_area {
+            padding: 20px 0;
         }
-        .detail-box{
-            padding: 15px
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            color: #28a745;
+        }
+
+        .product-category,
+        .product-quantity {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .product-description {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .add-to-cart-btn {
+            margin-top: 20px;
         }
     </style>
-
 </head>
 
 <body>
-  <div class="hero_area">
-    <!-- header section strats -->
-    @include('home.header')  
-  </div>
-
-  {{-- Product details start --}}
-  <section class="shop_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          Latest Products
-        </h2>
-      </div>
-      <div class="row">
-
-        
-          <div class="col-md-12">
-            <div class="box">
-              
-                <div class="div_center">
-                  <img width="400" src="/products/{{$product->image}}" alt="">
-                </div>
-                <div class="detail-box">
-                  <h6>
-                    {{$product->title}}
-                  </h6>
-                  <h6>
-                    Price
-                    <span>
-                      N{{$product->price}}
-                    </span>
-                  </h6>
-                </div>
-                
-                <div class="detail-box">
-                    <h6>
-                      Category: {{$product->category}}
-                    </h6>
-                    <h6>
-                      Available Quantity
-                      <span>
-                        {{$product->quantity}}
-                      </span>
-                    </h6>
-                </div>
-
-                <div class="detail-box">
-                    
-                    
-                     
-                    <p>{{$product->description}}</p>
-                      
-                  </div>
-             
-            </div>
-          </div> 
-       
-      </div>
+    <div class="hero_area">
+        @include('home.header')
     </div>
-  </section>
 
+    <!-- Product details start -->
+    <section class="shop_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>Just cart it</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <img src="/products/{{$product->image}}" alt="Product Image" class="product-image">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="detail-box">
+                        <h6 class="product-title">{{$product->title}}</h6>
+                        <h6 class="product-price">
+                            Price: <span>N{{$product->price}}</span>
+                        </h6>
+                        <h6 class="product-category">
+                            Category: <span>{{$product->category}}</span>
+                        </h6>
+                        <h6 class="product-quantity">
+                            Available Quantity: <span>{{$product->quantity}}</span>
+                        </h6>
+                        <p class="product-description">{{$product->description}}</p>
+                        <a href="{{url('add_cart', $product->id)}}" class="btn btn-primary add-to-cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product details end -->
 
-  {{-- Product details end --}}
-  
-  
-
- 
-   
-
-  <!-- info section -->
-  @include('home.footer')
+    @include('home.footer')
 </body>
 
 </html>

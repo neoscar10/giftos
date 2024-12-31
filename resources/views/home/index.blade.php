@@ -26,11 +26,6 @@
     @include('home.products')  
   <!-- end shop section -->
 
-  <!-- contact section -->
-
-  @include('home.contact')
-
-  <!-- end contact section -->
 
    
 

@@ -1,95 +1,139 @@
 <!DOCTYPE html>
 <html>
-  <head> 
-   @include('admin.css')
+  <head>
+    @include('admin.css')
 
     <style type="text/css">
-        input[type='text']{
-            height:50px;
-            width: 400px;
-        }
+      .form-container {
+          background-color: #2c3e50;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          color: #ecf0f1;
+          text-align: center;
+      }
 
-        .div_deg{
-          display: flex;
-          justify-content: center;
-          align-content: center; 
-          margin: 30px; 
-        }
+      .form-container input[type="text"] {
+          background-color: #34495e;
+          border: 1px solid #7f8c8d;
+          color: #ecf0f1;
+          width: 300px;
+          height: 50px;
+          margin-right: 10px;
+          padding: 10px;
+      }
 
-        .table_deg{
-            text-align: center;
-            margin: auto;
-            border: 2px solid grey;
-            margin-top: 50px;
-            width: 600px;
-        }
+      .form-container input[type="text"]:focus {
+          border-color: #1abc9c;
+          outline: none;
+          box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+      }
 
-        th{
-            background-color: rgb(65, 62, 62);
-            padding: 15px;
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-        }
+      .table-container {
+          margin-top: 50px;
+      }
 
-        td{
-            color: white;
-            padding: 10px;
-            border: 1px solid gray;
-        }
+      .table-container table {
+          border-collapse: collapse;
+          width: 80%;
+          margin: auto;
+          text-align: center;
+          background-color: #34495e;
+      }
 
+      .table-container th,
+      .table-container td {
+          padding: 15px;
+          border: 1px solid #7f8c8d;
+      }
+
+      .table-container th {
+          background-color: #1abc9c;
+          color: white;
+          font-weight: bold;
+      }
+
+      .table-container td {
+          color: #ecf0f1;
+      }
+
+      .table-container a {
+          text-decoration: none;
+      }
+
+      .btn-primary {
+          background-color: #1abc9c;
+          border-color: #16a085;
+      }
+
+      .btn-primary:hover {
+          background-color: #16a085;
+      }
+
+      .btn-danger:hover {
+          background-color: #e74c3c;
+      }
     </style>
   </head>
+
   <body>
-   
     @include('admin.header')
-   
-     @include('admin.sidebar')
-      <!-- Sidebar Navigation end-->
-      <div class="page-content">
-        <div class="page-header">
-          <div class="container-fluid">
+    @include('admin.sidebar')
 
-            <h1 style="color: white">Add Category</h1>
-           <div class="div_deg">
-           
-                <form action="{{url('add_category')}}" method="POST">
-                    @csrf
-                    <div>
-                        <input type="text" name="category">
-                        <input class="btn btn-primary" type="submit" value="Add Category">
-                    </div>
-               </form>
-           </div>
+    <div class="page-content">
+      <div class="container mt-5">
+        <!-- Add Category Form -->
+        <div class="form-container">
+          <h1 class="mb-4">Add Category</h1>
+          <form action="{{url('add_category')}}" method="POST">
+            @csrf
+            <input type="text" name="category" placeholder="Enter category name" required>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus-circle"></i> Add Category
+            </button>
+          </form>
+        </div>
 
-           <div>
-            <table class="table_deg">
+        <!-- Category Table -->
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Category Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($data as $category)
                 <tr>
-                    <th>Category name</th>
-                    <th>Edit</th>
-                    <th>Delete</th> 
+                  <td>{{$category->category_name}}</td>
+                  <td>
+                    <a class="btn btn-success" href="{{url('edit_category', $category->id)}}">
+                      <i class="fas fa-edit"></i> Edit
+                    </a>
+                  </td>
+                  <td>
+                    <a class="btn btn-danger" href="{{url('delete_category', $category->id)}}" onclick="confirmation(event)">
+                      <i class="fas fa-trash"></i> Delete
+                    </a>
+                  </td>
                 </tr>
-                @foreach ($data as $data)
-                    <tr>
-                        <td>{{$data->category_name}}</td>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-                        <td>
-                            <a class="btn btn-success" href="{{url('edit_category', $data->id)}}" onclick="">Edit</a>
-                        </td>
-
-                        <td>
-                            <a class="btn btn-danger" href="{{url('delete_category', $data->id)}}" onclick="confirmation(event)">Delete</a>
-                        </td>
-                    </tr>
-                @endforeach
-                
-            </table>
-
-           </div>
-
-            
-      </div
-    </div> 
     @include('admin.js')
+
+    <script>
+      function confirmation(event) {
+          if (!confirm("Are you sure you want to delete this category?")) {
+              event.preventDefault();
+          }
+      }
+    </script>
   </body>
 </html>

@@ -70,3 +70,18 @@ route::get('delivered/{id}', [AdminController::class,'delivered'])->middleware([
 route::get('download_ppdf/{id}', [AdminController::class,'download_ppdf'])->middleware(['auth', 'admin']);
 
 route::get('myorders', [HomeController::class,'myorders'])->middleware(['auth', 'verified']);
+
+route::get('shop', [HomeController::class,'shop'])->middleware(['auth', 'verified']);
+
+route::get('why', [HomeController::class,'why'])->middleware(['auth', 'verified']);
+
+
+
+// stripe payment route
+Route::controller(HomeController::class)->group(function(){
+
+    Route::get('stripe/{total}', 'stripe');
+
+    Route::post('stripe/{total}', 'stripePost')->name('stripe.post');
+
+});

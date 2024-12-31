@@ -2,95 +2,66 @@
 <html>
 
 <head>
- 
     @include('home.css')
+    <!-- Font Awesome for Icons -->
+    
 
     <style>
-        .div_deg{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 60px;
+        .hero_area {
+            padding: 20px 0;
         }
-        .cart-value{
-            text-align: center;
-            margin-bottom: 70px;
-            padding: 20px
-        }
-
-        table{
-            border: 2px solid black;
-            text-align: center;
-            width: 800px;
-        }
-        th{
-            border: 2px sold black;
-            text-align: center;
-            color: white;
-            font: 20px;
-            font-weight: bold;
-            background-color: black; 
-            height: 60px;
-        }
-        td{
-            border: 1px solid gray;
-            padding: 10px;
-        }
-        /* order details table */
-
-        .order_deg{
-            padding-right: 50px;
-            margin-top: -50px;
-        }
-        label{
-            display: inline-block;
-            width: 150px;
-        }
-        .div_gap{
-            padding: 20px
-        }
-
-
     </style>
-
 </head>
 
 <body>
-  <div class="hero_area">
-    <!-- header section strats -->
-    @include('home.header')
-  </div>
+    <div class="hero_area">
+        <!-- Header section -->
+        @include('home.header')
+    </div>
 
-  <div class="div_deg">
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Delivery Status</th>
-        </tr>
+    <div class="container my-5">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Image</th>
+                        <th>Delivery Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orders as $order)
+                        <tr>
+                            <td>{{$order->product->title}}</td>
+                            <td>{{$order->product->price}}</td>
+                            <td>
+                                <img src="/products/{{$order->product->image}}" alt="product image" class="img-fluid" style="max-width: 50px; height: auto;">
+                            </td>
+                            <td>
+                                @if ($order->status == 'Delivered')
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle"></i> Delivered
+                                    </span>
+                                @elseif ($order->status == 'Pending')
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-hourglass-half"></i> Pending
+                                    </span>
+                                @else
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle"></i> {{$order->status}}
+                                    </span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        @foreach ($orders as $order)
-            <tr>
-                <td>{{$order->product->title}}</td>
-                <td>{{$order->product->price}}</td>
-                <td>
-                    <img height="50" width="50" src="/products/{{$order->product->image}}" alt="">
-                </td>
-                <td>{{$order->status}}</td>
-            </tr>  
-        @endforeach
-       
 
-        
-       
-    </table>
-  </div>
-  
-
- 
-
-  @include('home.footer')
+    @include('home.footer')
 </body>
 
 </html>
