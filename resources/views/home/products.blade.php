@@ -1,3 +1,5 @@
+
+
 <section class="shop_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
@@ -22,12 +24,14 @@
                   <h6>
                     Price
                     <span>
-                      N{{$product->price}}
+                      ${{$product->price}}
                     </span>
                   </h6>
                 </div>
               </a> 
-              <a href="{{url('add_cart', $product->id)}}" class="btn btn-primary">Add to cart</a>
+              <a href="{{url('add_cart', $product->id)}}" class="btn btn-primary add-to-cart-btn text-white">
+                <i class="fas fa-shopping-cart "></i> Add to Cart
+            </a>
             </div>
           </div> 
         @endforeach

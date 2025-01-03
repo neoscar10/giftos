@@ -20,7 +20,7 @@
 
     
 
-    <center><h1>Giftos Payment system</h1></center>
+    <center><h3>GANI CLOTHING LINE</h3></center>
 
     
 

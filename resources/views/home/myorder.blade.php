@@ -34,7 +34,7 @@
                     @foreach ($orders as $order)
                         <tr>
                             <td>{{$order->product->title}}</td>
-                            <td>{{$order->product->price}}</td>
+                            <td>${{$order->product->price}}</td>
                             <td>
                                 <img src="/products/{{$order->product->image}}" alt="product image" class="img-fluid" style="max-width: 50px; height: auto;">
                             </td>

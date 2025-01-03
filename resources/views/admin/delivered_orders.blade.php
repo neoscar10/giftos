@@ -93,10 +93,7 @@
                   <th>Product title</th>
                   <th>Price</th>
                   <th>Image</th>
-                  <th>Payment Status</th>
-                  <th>Status</th>
-                  <th>Change Status</th>
-                  <th>Download PDF</th>
+                 
                 </tr>
               </thead>
               <tbody>
@@ -110,24 +107,7 @@
                     <td>
                       <img height="30" width="50" src="/products/{{$order->product->image}}" alt="">
                     </td>
-                    <td>{{$order->payment_status}}</td>
-                    <td>
-                      {{-- getting different colors for order status --}}
-                      @if ($order->status == 'On the way')
-                        <span style="color: yellow">{{$order->status}}</span>
-                      @elseif ($order->status == 'Delivered')
-                        <span style="color: green">{{$order->status}}</span>
-                      @else
-                        <span style="color: red">{{$order->status}}</span>
-                      @endif
-                    </td>
-                    <td class="action-buttons">
-                      <a href="{{url('on_the_way',$order->id)}}" class="btn btn-secondary">On the way</a>
-                      <a href="{{url('delivered',$order->id)}}" class="btn btn-success">Delivered</a>
-                    </td>
-                    <td>
-                      <a class="btn" style="background-color: rgb(111, 185, 209)" href="{{url('download_ppdf', $order->id)}}">Download PDF</a>
-                    </td>
+                    
                   </tr>
                 @endforeach
               </tbody>

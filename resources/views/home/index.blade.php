@@ -20,12 +20,14 @@
     <!-- end slider section -->
   </div>
   <!-- end hero area -->
+  <!-- Movable cart -->
+  
 
   <!-- shop section -->
 
     @include('home.products')  
   <!-- end shop section -->
-
+  
 
    
 

@@ -74,7 +74,7 @@
       <div class="container">
         <p>
           &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Web Tech Knowledge</a>
+          
         </p>
       </div>
     </footer>
@@ -85,8 +85,31 @@
   <!-- end info section -->
 
 
+
   <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
   <script src="{{asset('js/bootstrap.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
   </script>
   <script src="{{asset('js/custom.js')}}"></script>
+
+  <script>
+    function updateCartCount() {
+      fetch('/cart-count')
+        .then(response => response.json())
+        .then(data => {
+          const cartCountElement = document.querySelector('.cart-count');
+          if (cartCountElement) {
+            cartCountElement.textContent = data.count;
+          }
+        })
+        .catch(error => console.error('Error fetching cart count:', error));
+    }
+  
+    // Call the function periodically (e.g., every 10 seconds)
+    setInterval(updateCartCount, 1000);
+  
+    // Optionally, call it on page load
+    updateCartCount();
+  </script>
+  
+ 

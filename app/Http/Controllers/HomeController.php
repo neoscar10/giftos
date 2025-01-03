@@ -19,8 +19,9 @@ class HomeController extends Controller
         $admins = User::where('usertype', 'admin')->count();
         $products = Products::all()->count();
         $delivered = Order::where('status','delivered')->count();
+        $not_delivered = Order::where('status', 'On the way')->orWhere('status', 'in progress ')->count();
         $orders = Order::all()->count();
-        return view("admin.index", compact("users", "products", "delivered", "orders", "admins"));
+        return view("admin.index", compact("users", "products", "delivered", "orders", "admins", "not_delivered"));
     }
 
     public function home(){
@@ -29,7 +30,7 @@ class HomeController extends Controller
             // for showing cart
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
             //end of side
         } else {
             $count = '';
@@ -47,7 +48,7 @@ class HomeController extends Controller
             // for showing cart
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
             //end of side
         } else {
             $count = '';
@@ -65,7 +66,7 @@ class HomeController extends Controller
             // for showing cart
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
             //end of side
         } else {
             $count = '';
@@ -75,18 +76,33 @@ class HomeController extends Controller
         return view("home.product_details", compact("product", "count"));
     }
 
-    public function add_cart($id){
-        $product_id = $id;
-        $user = Auth::user(); //gets the cureent user that is authenticated
-        $user_id = $user->id;
+    public function add_cart($id)
+        {
+            $product_id = $id;
+            $user = Auth::user(); // Gets the currently authenticated user
+            $user_id = $user->id;
 
-        $data = new Cart;
-        $data->user_id = $user_id;
-        $data->product_id = $product_id;
-        $data->save();
+            // Check if the product is already in the user's cart
+            $existingCartItem = Cart::where('user_id', $user_id)
+                                    ->where('product_id', $product_id)
+                                    ->first();
 
-        return redirect()->back()->with("success","Product added to cart");
-    }
+            if ($existingCartItem) {
+                // If the product already exists in the cart, increment the quantity
+                $existingCartItem->quantity += 1; // Adjust the increment as needed
+                $existingCartItem->save();
+            } else {
+                // Otherwise, create a new cart entry
+                $data = new Cart;
+                $data->user_id = $user_id;
+                $data->product_id = $product_id;
+                $data->quantity = 1;
+                $data->save();
+            }
+
+            return redirect()->back()->with('success', 'Product added to cart');
+        }
+
 
     public function mycart(){
 
@@ -94,7 +110,7 @@ class HomeController extends Controller
             // for showing cart
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
             //end of side
             $cartData = Cart::where('user_id', $userid)->get();
         } else {
@@ -110,6 +126,36 @@ class HomeController extends Controller
         $item->delete();
         return redirect()->back();
     }
+
+    public function updateCartQuantity(Request $request, $id)
+        {
+            $cartItem = Cart::findOrFail($id);
+            $cartItem->quantity = $request->quantity;
+            $cartItem->save();
+
+            // Calculate the new total
+            $userId = $cartItem->user_id;
+            $cartItems = Cart::where('user_id', $userId)->get();
+            $newTotal = 0;
+
+            foreach ($cartItems as $item) {
+                $newTotal += $item->product->price * $item->quantity;
+            }
+
+            return response()->json(['success' => true, 'newTotal' => $newTotal]);
+        }
+
+    public function getCartCount()
+        {
+            $count = 0;
+            if (Auth::id()) {
+                $user = Auth::user();
+                $userid = $user->id;
+                $count = Cart::where('user_id', $userid)->sum('quantity');
+            }
+            return response()->json(['count' => $count]);
+        }
+
 
     public function confirm_order(Request $request){
         $name = $request->name;
@@ -148,7 +194,7 @@ class HomeController extends Controller
             // for showing cart
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
 
 
             $orders = Order::where('user_id', $userid)->get();
@@ -167,7 +213,7 @@ class HomeController extends Controller
             // for showing cart
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
             $products = Products::all();
 
 
@@ -176,6 +222,7 @@ class HomeController extends Controller
             $cartData = Cart::where('user_id', $userid)->get();
         } else {
             $count = '';
+            $products = Products::all();
         }
         //end.........................
         return view('home.shop', compact('count', 'products'));
@@ -188,7 +235,7 @@ class HomeController extends Controller
             // for showing cart
             $user = Auth::user();
             $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->count();
+            $count = Cart::where('user_id', $userid)->sum('quantity');
         
 
 
@@ -198,9 +245,17 @@ class HomeController extends Controller
         } else {
             $count = '';
         }
-        //end.........................
-        return view('home.why', compact('count'));
-    }
+             //end.........................
+             return view('home.why', compact('count'));
+        }
+
+        public function search(Request $request){
+            $search = $request->search;
+
+            $products = Products::where('title','LIKE','%'.$search.'%')->orWhere('category','LIKE','%'.$search.'%')->paginate(3);
+
+            return view('home.shop', compact('products'));
+        }
 
 
     

@@ -68,7 +68,7 @@
                     <div class="detail-box">
                         <h6 class="product-title">{{$product->title}}</h6>
                         <h6 class="product-price">
-                            Price: <span>N{{$product->price}}</span>
+                            Price: <span>${{$product->price}}</span>
                         </h6>
                         <h6 class="product-category">
                             Category: <span>{{$product->category}}</span>

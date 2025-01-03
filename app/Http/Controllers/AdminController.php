@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Products;
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -138,6 +139,30 @@ class AdminController extends Controller
         return view('admin.view_orders', compact('orders'));
     }
 
+    public function delivered_orders(){
+        $orders = Order::where('status', 'Delivered')->get();
+        return view('admin.delivered_orders', compact('orders'));
+    }
+
+    public function not_delivered(){
+        $orders = Order::where('status', 'On the way')->orWhere('status', 'in progress ')->get();
+        return view('admin.not_delivered', compact('orders'));
+    }
+
+    
+
+    public function view_admins(){
+        $admins = User::where('usertype', 'admin')->get();
+
+        return view('admin.view_admins', compact('admins'));
+    }
+
+    public function view_users(){
+        $users = User::where('usertype', 'user')->get();
+
+        return view('admin.view_users', compact('users'));
+    }
+
     public function on_the_way($id){
         $order = Order::find($id);
         $order->status = 'On the way';
@@ -150,9 +175,13 @@ class AdminController extends Controller
         $order = Order::find($id);
         $order->status = 'Delivered';
         $order->save();
-
         return redirect()->back();
     }
+
+    
+
+
+    
 
     public function download_ppdf($id){
         $data = Order::find($id);

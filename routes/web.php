@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ConsultController;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\Admin;
@@ -27,53 +28,51 @@ require __DIR__.'/auth.php';
 
 route::get('admin/dashboard', [HomeController::class,'index'])->middleware(['auth', 'admin']);
 
+//admin controllers
 route::get('view_category', [AdminController::class,'view_category'])->middleware(['auth', 'admin']);
-
 route::post('add_category', [AdminController::class,'add_category'])->middleware(['auth', 'admin']);
-
 route::get('delete_category/{id}', [AdminController::class,'delete_category'])->middleware(['auth', 'admin']);
-
 route::get('edit_category/{id}', [AdminController::class,'edit_category'])->middleware(['auth', 'admin']);
-
 route::post('update_category/{id}', [AdminController::class,'update_category'])->middleware(['auth', 'admin']);
-
 route::get('add_product', [AdminController::class,'add_product'])->middleware(['auth', 'admin']);
-
 route::post('upload_product', [AdminController::class,'upload_product'])->middleware(['auth', 'admin']);
-
 route::get('view_product', [AdminController::class,'view_product'])->middleware(['auth', 'admin']);
-
+route::get('view_admins', [AdminController::class,'view_admins'])->middleware(['auth', 'admin']);
+route::get('view_users', [AdminController::class,'view_users'])->middleware(['auth', 'admin']);
 route::get('delete_product/{id}', [AdminController::class,'delete_product'])->middleware(['auth', 'admin']);
-
 route::get('update_product/{id}', [AdminController::class,'update_product'])->middleware(['auth', 'admin']);
-
 route::post('edit_product/{id}', [AdminController::class,'edit_product'])->middleware(['auth', 'admin']);
-
 route::get('product_search', [AdminController::class,'product_search'])->middleware(['auth', 'admin']);
-
-route::get('product_details/{id}', [HomeController::class,'product_details']);
-
-route::get('add_cart/{id}', [HomeController::class,'add_cart'])->middleware(['auth', 'verified']);
-
-route::get('mycart', [HomeController::class,'mycart'])->middleware(['auth', 'verified']);
-
-route::get('deleteCartIten/{id}', [HomeController::class,'deleteCartIten'])->middleware(['auth', 'verified']);
-
-route::post('confirm_order', [HomeController::class,'confirm_order'])->middleware(['auth', 'verified']);
-
+route::get('delivered/{id}', [AdminController::class,'delivered'])->middleware(['auth', 'admin']);
+route::get('download_ppdf/{id}', [AdminController::class,'download_ppdf'])->middleware(['auth', 'admin']);
 route::get('view_orders', [AdminController::class,'view_orders'])->middleware(['auth', 'admin']);
+route::get('delivered_orders', [AdminController::class,'delivered_orders'])->middleware(['auth', 'admin']);
+route::get('not_delivered', [AdminController::class,'not_delivered'])->middleware(['auth', 'admin']);
+
+
+
 
 route::get('on_the_way/{id}', [AdminController::class,'on_the_way'])->middleware(['auth', 'admin']);
 
-route::get('delivered/{id}', [AdminController::class,'delivered'])->middleware(['auth', 'admin']);
 
-route::get('download_ppdf/{id}', [AdminController::class,'download_ppdf'])->middleware(['auth', 'admin']);
-
+//Home controllers
+route::get('product_details/{id}', [HomeController::class,'product_details']);
+route::get('add_cart/{id}', [HomeController::class,'add_cart'])->middleware(['auth', 'verified']);
+route::get('mycart', [HomeController::class,'mycart'])->middleware(['auth', 'verified']);
+route::get('deleteCartIten/{id}', [HomeController::class,'deleteCartIten'])->middleware(['auth', 'verified']);
+Route::post('/updateCartQuantity/{id}', [HomeController::class, 'updateCartQuantity']);
+route::post('confirm_order', [HomeController::class,'confirm_order'])->middleware(['auth', 'verified']);
 route::get('myorders', [HomeController::class,'myorders'])->middleware(['auth', 'verified']);
+route::get('shop', [HomeController::class,'shop']);
+route::get('why', [HomeController::class,'why']);
+Route::get('/cart-count', [HomeController::class, 'getCartCount']);
+route::get('search', [HomeController::class,'search']);
 
-route::get('shop', [HomeController::class,'shop'])->middleware(['auth', 'verified']);
 
-route::get('why', [HomeController::class,'why'])->middleware(['auth', 'verified']);
+
+// Consultation routes
+route::get('book_consultation', [ConsultController::class,'book_consultation'])->middleware(['auth', 'verified']);
+
 
 
 

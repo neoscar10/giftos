@@ -6,6 +6,26 @@ body {
   background-color: #ffffff;
 }
 
+
+/* Styling for the cart icon number display */
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #f39c12;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 10px;
+    
+}
+
+/* Ensure the cart icon is positioned relative for the count to be positioned correctly */
+.navbar .fa-shopping-cart {
+  position: relative;
+  font-size: 24px;  /* Adjusted the cart icon size */
+}
+
 .layout_padding {
   padding-top: 90px;
   padding-bottom: 90px;
