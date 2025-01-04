@@ -92,6 +92,7 @@
                   <th>Phone</th>
                   <th>Product title</th>
                   <th>Price</th>
+                  <th>Date</th>
                   <th>Image</th>
                   <th>Payment Status</th>
                   <th>Status</th>
@@ -106,7 +107,8 @@
                     <td>{{$order->rec_address}}</td>
                     <td>{{$order->phone}}</td>
                     <td>{{$order->product->title}}</td>
-                    <td>N{{$order->product->price}}</td>
+                    <td>${{$order->product->price}}</td>
+                    <td>{{$order->created_at->format('d M, Y')}}</td>
                     <td>
                       <img height="30" width="50" src="/products/{{$order->product->image}}" alt="">
                     </td>
