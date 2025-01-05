@@ -77,48 +77,80 @@ class HomeController extends Controller
     }
 
     public function add_cart($id)
-        {
-            $product_id = $id;
-            $user = Auth::user(); // Gets the currently authenticated user
-            $user_id = $user->id;
+{
+    $product_id = $id;
 
-            // Check if the product is already in the user's cart
-            $existingCartItem = Cart::where('user_id', $user_id)
-                                    ->where('product_id', $product_id)
-                                    ->first();
+    if (Auth::check()) {
+        // If the user is authenticated
+        $user_id = Auth::id();
 
-            if ($existingCartItem) {
-                // If the product already exists in the cart, increment the quantity
-                $existingCartItem->quantity += 1; // Adjust the increment as needed
-                $existingCartItem->save();
-            } else {
-                // Otherwise, create a new cart entry
-                $data = new Cart;
-                $data->user_id = $user_id;
-                $data->product_id = $product_id;
-                $data->quantity = 1;
-                $data->save();
-            }
+        // Check if the product is already in the user's cart
+        $existingCartItem = Cart::where('user_id', $user_id)
+                                ->where('product_id', $product_id)
+                                ->first();
 
-            return redirect()->back()->with('success', 'Product added to cart');
-        }
-
-
-    public function mycart(){
-
-        if (Auth::id()) {
-            // for showing cart
-            $user = Auth::user();
-            $userid = $user->id;
-            $count = Cart::where('user_id', $userid)->sum('quantity');
-            //end of side
-            $cartData = Cart::where('user_id', $userid)->get();
+        if ($existingCartItem) {
+            $existingCartItem->quantity += 1;
+            $existingCartItem->save();
         } else {
-            $count = '';
+            $data = new Cart;
+            $data->user_id = $user_id;
+            $data->product_id = $product_id;
+            $data->quantity = 1;
+            $data->save();
+        }
+    } else {
+        // If the user is not authenticated, store in session
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$product_id])) {
+            $cart[$product_id]['quantity'] += 1;
+        } else {
+            $cart[$product_id] = [
+                'product_id' => $product_id,
+                'quantity' => 1,
+            ];
         }
 
-        return view("home.mycart", compact("count", 'cartData'));
+        session()->put('cart', $cart);
     }
+
+    return redirect()->back()->with('success', 'Product added to cart');
+}
+
+
+
+public function mycart()
+{
+    $cartData = [];
+    $count = 0;
+
+    if (Auth::check()) {
+        // Authenticated user
+        $user_id = Auth::id();
+        $cartData = Cart::where('user_id', $user_id)->get();
+        $count = $cartData->sum('quantity');
+    } else {
+        // Unauthenticated user
+        $cart = session()->get('cart', []);
+        $productIds = array_keys($cart);
+
+        // Fetch product details for session-based cart
+        $products = Products::whereIn('id', $productIds)->get();
+
+        foreach ($products as $product) {
+            $cartData[] = [
+                'product' => $product,
+                'quantity' => $cart[$product->id]['quantity'],
+            ];
+        }
+
+        $count = array_sum(array_column($cart, 'quantity'));
+    }
+
+    return view("home.mycart", compact("count", 'cartData'));
+}
+
 
     public function deleteCartIten($id){
         $item = Cart::find($id);

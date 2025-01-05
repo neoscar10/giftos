@@ -57,8 +57,9 @@ route::get('on_the_way/{id}', [AdminController::class,'on_the_way'])->middleware
 
 //Home controllers
 route::get('product_details/{id}', [HomeController::class,'product_details']);
-route::get('add_cart/{id}', [HomeController::class,'add_cart'])->middleware(['auth', 'verified']);
-route::get('mycart', [HomeController::class,'mycart'])->middleware(['auth', 'verified']);
+Route::get('add_cart/{id}', [HomeController::class, 'add_cart']);
+Route::get('mycart', [HomeController::class, 'mycart'])->middleware(['auth', 'verified']);
+
 route::get('deleteCartIten/{id}', [HomeController::class,'deleteCartIten'])->middleware(['auth', 'verified']);
 Route::post('/updateCartQuantity/{id}', [HomeController::class, 'updateCartQuantity']);
 route::post('confirm_order', [HomeController::class,'confirm_order'])->middleware(['auth', 'verified']);
@@ -71,7 +72,7 @@ route::get('search', [HomeController::class,'search']);
 
 
 // Consultation routes
-route::get('book_consultation', [ConsultController::class,'book_consultation'])->middleware(['auth', 'verified']);
+route::get('book_consultation', [ConsultController::class,'book_consultation']);
 
 
 

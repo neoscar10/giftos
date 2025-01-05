@@ -51,14 +51,23 @@
             </form>
 
           @else
+          <a href="{{url('mycart')}}">
+            <i class="fa fa-shopping-cart" aria-hidden="true">
+              <span class="cart-count p-1">{{$count}}</span>
+            </i>
+          </a>
+
             <a href="{{url('/login')}}">
               <i class="fa fa-user" aria-hidden="true"></i>
               <span>Login</span>
             </a>
+            
             <a href="{{url('/register')}}">
               <i class="fa fa-vcard" aria-hidden="true"></i>
               <span>Signup</span>
             </a>
+
+            
           @endauth
         @endif
 
