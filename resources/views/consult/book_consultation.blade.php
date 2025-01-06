@@ -23,27 +23,27 @@
         <h1>Book Consultation</h1>
         <p>Learn tennis or solve tennis-related issues</p>
     </div>
-    <form id="consultancyForm">
+    <form id="consultancyForm" method="POST" action="{{url('upload_booking')}}">
+        @csrf
         <div class="form-group">
-            <label for="category">Consultation Category:</label>
-            <select id="category" required>
-                <option value="" disabled selected>Select Category</option>
-                <option value="Tennis Training">Tennis Training</option>
-                <option value="Tennis Equipment">Tennis Equipment</option>
-                <option value="Tournament Tips">Tournament Tips</option>
-            </select>
+            <label for="category">Consultation Schedules:</label>
+            <select id="category" name="appointment_time" required>
+                <option value="" disabled selected>Choose a Schedule</option>
+                @foreach ($bookings as $booking)
+                    
+                    <option value="{{ \Carbon\Carbon::parse($booking->start_time)->format('F j, Y, g:i A ') }} to {{ \Carbon\Carbon::parse($booking->end_time)->format('h:i A') }}">
+                        {{ \Carbon\Carbon::parse($booking->start_time)->format('F j, Y, g:i A ') }} to {{ \Carbon\Carbon::parse($booking->end_time)->format('h:i A') }}
+                    </option>
+                @endforeach
+            </select>            
         </div>
         <div class="form-group">
-            <label for="date">Select Date:</label>
-            <input type="date" id="date" required>
-        </div>
-        <div class="form-group">
-            <label for="time">Available Time:</label>
-            <select id="time" required>
-                <option value="" disabled selected>Select Time</option>
-                <option value="10:00 AM">10:00 AM to 12:00 PM</option>
-                <option value="2:00 PM">2:00 PM to 4:00 PM</option>
-                <option value="5:00 PM">5:00 PM to 6:00 PM</option>
+            <label for="time">Meeting Mode:</label>
+            <select id="time" name="meeting_mode" required>
+                <option value="" disabled selected>Select meeting mode</option>
+                <option value="Physical">Physical</option>
+                <option value="Video Call">Video Call</option>
+                <option value="Phone Call">Phone Call</option>
             </select>
         </div>
         <button type="submit" class="btn-book">Book Now</button>
@@ -52,38 +52,7 @@
         Booking Successful! See you soon!
     </div>
 </div>
-<script>
-    const form = document.getElementById('consultancyForm');
-    const successMessage = document.getElementById('successMessage');
 
-    // Predefined occupied slots (date and time)
-    const occupiedSlots = [
-        "01-3-2025 10:00 AM to 12:00 PM"
-    ];
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const category = document.getElementById('category').value;
-        const date = document.getElementById('date').value;
-        const time = document.getElementById('time').value;
-        const slot = `${date} ${time}`;
-
-        if (occupiedSlots.includes(slot)) {
-            alert('This slot is already occupied. Please select a different time or date.');
-            return;
-        }
-
-        occupiedSlots.push(slot); // Mark the slot as occupied
-        successMessage.style.display = 'block';
-        form.reset();
-
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 3000);
-    });
-</script>
-  
   
 
  

@@ -48,18 +48,12 @@ route::get('download_ppdf/{id}', [AdminController::class,'download_ppdf'])->midd
 route::get('view_orders', [AdminController::class,'view_orders'])->middleware(['auth', 'admin']);
 route::get('delivered_orders', [AdminController::class,'delivered_orders'])->middleware(['auth', 'admin']);
 route::get('not_delivered', [AdminController::class,'not_delivered'])->middleware(['auth', 'admin']);
-
-
-
-
 route::get('on_the_way/{id}', [AdminController::class,'on_the_way'])->middleware(['auth', 'admin']);
-
 
 //Home controllers
 route::get('product_details/{id}', [HomeController::class,'product_details']);
 Route::get('add_cart/{id}', [HomeController::class, 'add_cart']);
 Route::get('mycart', [HomeController::class, 'mycart'])->middleware(['auth', 'verified']);
-
 route::get('deleteCartIten/{id}', [HomeController::class,'deleteCartIten'])->middleware(['auth', 'verified']);
 Route::post('/updateCartQuantity/{id}', [HomeController::class, 'updateCartQuantity']);
 route::post('confirm_order', [HomeController::class,'confirm_order'])->middleware(['auth', 'verified']);
@@ -69,10 +63,22 @@ route::get('why', [HomeController::class,'why']);
 Route::get('/cart-count', [HomeController::class, 'getCartCount']);
 route::get('search', [HomeController::class,'search']);
 
-
-
 // Consultation routes
-route::get('book_consultation', [ConsultController::class,'book_consultation']);
+route::get('book_consultation', [ConsultController::class,'book_consultation'])->middleware('auth', 'verified');
+// Route::get('/consultant-availability', [ConsultController::class, 'getAvailability']);
+route::post('add_time_slot', [AdminController::class,'add_time_slot'])->middleware('auth', 'admin');
+route::get('test', [ConsultController::class,'test'])->middleware('auth', 'admin');
+route::get('manage_time_slots', [ConsultController::class,'manage_time_slots'])->middleware('auth', 'admin');
+route::post('upload_booking', [ConsultController::class,'upload_booking'])->middleware('auth', 'verified');
+route::get('view_appointments', [AdminController::class,'view_appointments'])->middleware('auth', 'admin');
+
+
+
+
+
+
+
+
 
 
 
@@ -81,7 +87,6 @@ route::get('book_consultation', [ConsultController::class,'book_consultation']);
 Route::controller(HomeController::class)->group(function(){
 
     Route::get('stripe/{total}', 'stripe');
-
     Route::post('stripe/{total}', 'stripePost')->name('stripe.post');
 
 });

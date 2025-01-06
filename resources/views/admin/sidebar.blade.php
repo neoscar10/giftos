@@ -11,18 +11,29 @@
     </div>
     <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
     <ul class="list-unstyled">
-            <li class=""><a href="{{url('admin/dashboard')}}"> <i class="icon-home"></i>Home </a></li>
-            <li><a href="{{url('view_category ')}}"> <i class="icon-grid"></i>Category </a></li>
-            <li><a href="{{url('view_orders ')}}"> <i class="icon-grid"></i>Orders </a></li>
-
-
-            <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Products </a>
-              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                <li><a href="{{url('add_product')}}">Add Products</a></li>
-                <li><a href="{{url('view_product')}}">View Products</a></li>
-                
-              </ul>
-            </li>
-           
-    </ul>
+      <!-- Products Dropdown -->
+      <!-- Other Links -->
+      <li><a href="{{url('admin/dashboard')}}"> <i class="icon-home"></i> Home </a></li>
+      <li><a href="{{url('view_category')}}"> <i class="icon-grid"></i> Category </a></li>
+      <li><a href="{{url('view_orders')}}"> <i class="icon-grid"></i> Orders </a></li>
+      <li>
+        <a href="#productsDropdown" aria-expanded="false" data-toggle="collapse">
+            <i class="icon-windows"></i> Products
+        </a>
+        <ul id="productsDropdown" class="collapse list-unstyled">
+            <li><a href="{{url('add_product')}}">Add Products</a></li>
+            <li><a href="{{url('view_product')}}">View Products</a></li>
+        </ul>
+    </li> 
+    <li>
+      <a href="#consultationDropdown" aria-expanded="false" data-toggle="collapse">
+          <i class="icon-windows"></i> Consultation
+      </a>
+      <ul id="consultationDropdown" class="collapse list-unstyled">
+          <li><a href="{{url('manage_time_slots')}}">Manage Time Slots</a></li>
+          <li><a href="{{url('view_appointments')}}">View Appointments</a></li>
+      </ul>
+  </li>
+  </ul>
+  
   </nav>

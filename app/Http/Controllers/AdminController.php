@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointments;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Products;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -178,7 +181,36 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    //Admin functions for consultancy
     
+    public function add_time_slot(Request $request){
+        $slot = new Booking();
+
+        $slot->user_id = Auth::user()->id;
+        $slot->start_time = $request->start_time;
+        $slot->end_time = $request->end_time;
+
+        $slot->save();
+        return redirect()->back()->with('success', 'Successfully added time slot');
+    }
+
+    public function view_appointments(){
+        $appointments = Appointments::all();
+        return view('admin.view_appointments', compact('appointments'));
+    }
+
+    
+
+    
+
+    // $category = new Category();
+
+    //     $category->category_name = $request->category;
+    //     $category->save();
+
+    //     toastr()->addSuccess("Category added successfully");
+        
+    //     return redirect()->back()->with("success","Successfully added catecory");
 
 
     

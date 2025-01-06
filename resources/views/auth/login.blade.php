@@ -200,10 +200,10 @@
                     <div class="link">
                         Not a member? <a href="#" onclick="document.getElementById('signup').click()">Signup now</a>
                     </div>
-                    <div class="social-login">
+                    {{-- <div class="social-login">
                         <a href="#" class="google"><i class="fab fa-google"></i> Google</a>
                         <a href="#" class="facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
-                    </div>
+                    </div> --}}
                 </form>
                 
                 <form action="{{ route('register') }}" method="POST" class="signup">

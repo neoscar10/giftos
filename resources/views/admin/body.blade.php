@@ -99,9 +99,9 @@
                   <div class="progress-details d-flex align-items-end justify-content-between">
                     <div class="title">
                       <div class="icon">
-                        <span class="material-symbols-outlined" style="font-size: 2rem">
+                        {{-- <span class="material-symbols-outlined" style="font-size: 2rem">
                           local_shipping
-                          </span>
+                          </span> --}}
                         </div><strong>Delivered</strong>
                     </div>
                     <div class="number text-success">{{$delivered}}</div>
@@ -119,9 +119,9 @@
                   <div class="progress-details d-flex align-items-end justify-content-between">
                     <div class="title">
                       <div class="icon">
-                        <span class="material-symbols-outlined" style="font-size: 2rem">
+                        {{-- <span class="material-symbols-outlined" style="font-size: 2rem">
                           local_shipping
-                          </span>
+                          </span> --}}
                         </div><strong>Not Delivered</strong>
                     </div>
                     <div class="number dashtext-3">{{$not_delivered}}</div>
