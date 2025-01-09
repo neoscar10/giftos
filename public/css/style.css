@@ -5,8 +5,6 @@ body {
   color: #101010;
   background-color: #ffffff;
 }
-
-
 /* Styling for the cart icon number display */
 .cart-count {
   position: absolute;
@@ -17,7 +15,6 @@ body {
   border-radius: 50%;
   padding: 2px 6px;
   font-size: 10px;
-    
 }
 
 /* Ensure the cart icon is positioned relative for the count to be positioned correctly */
@@ -256,7 +253,7 @@ a:focus {
   color: #fefefe;
   background-color: #000000;
   background-color: black;
-  padding: 25px;
+  padding: 0px;
   border-radius: 0 0 15px 15px;
 }
 
@@ -281,7 +278,7 @@ a:focus {
 }
 
 .slider_section .detail-box {
-  padding-left: 45px;
+  padding-left: 5px;
   margin: 45px 0;
 }
 

@@ -204,6 +204,9 @@ public function mycart()
             $order->phone = $phone;
             $order->user_id = $userid;
             $order->product_id = $data->product_id;
+            
+           
+            
 
             $order->save();
         }
@@ -332,7 +335,7 @@ public function mycart()
 
                 "source" => $request->stripeToken,
 
-                "description" => "Test payment from Giftos" 
+                "description" => "Payment from Gani Clothing Line" 
 
         ]);
 

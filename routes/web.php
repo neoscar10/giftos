@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConsultController;
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SocialiteController;
 use App\Http\Middleware\Admin;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -12,10 +13,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 
 route::get("/", [HomeController::class,"home"])->name("home");
-
 route::get("/dashboard", [HomeController::class,"login_home"])->middleware(['auth', 'verified'])->name('dashboard');;
+Route::controller(SocialiteController::class)->group(function(){
+    Route::get('auth/google-callback', 'googleAuthentication')->name('auth.google-callback');
+    Route::get('auth/google', 'googleLogin')->name('auth.google');
 
-
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -71,6 +74,7 @@ route::get('test', [ConsultController::class,'test'])->middleware('auth', 'admin
 route::get('manage_time_slots', [ConsultController::class,'manage_time_slots'])->middleware('auth', 'admin');
 route::post('upload_booking', [ConsultController::class,'upload_booking'])->middleware('auth', 'verified');
 route::get('view_appointments', [AdminController::class,'view_appointments'])->middleware('auth', 'admin');
+route::get('make_booking_payment', [ConsultController::class,'make_booking_payment'])->middleware('auth', 'verified');
 
 
 

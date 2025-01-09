@@ -92,7 +92,9 @@
                 <th>Meeting Mode</th>
                 <th>Phone</th>
                 <th>Email</th>
+                <th>Payment Status</th>
                 <th>Delete</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -104,6 +106,7 @@
                   <td>{{$appointment->meeting_mode}}</td>
                   <td>{{$appointment->user->phone}}</td>
                   <td>{{$appointment->user->email}}</td>
+                  <td>{{$appointment->payment_status}}</td>
                   <td>
                     <a class="btn btn-danger" href="{{url('delete_appointment', $appointment->id)}}" onclick="confirmation(event)">
                       <i class="fas fa-trash"></i> Delete

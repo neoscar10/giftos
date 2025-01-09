@@ -166,9 +166,38 @@
         .social-login a i {
             margin-right: 8px;
         }
+
+        .back-btn {
+    position: absolute;
+    top: 100px;
+    left: 400px;
+    text-decoration: none;
+    color: #fff;
+    background: #3a89e2;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+.back-btn:hover {
+    background: #2f78c9;
+    transform: scale(1.05);
+}
+.back-btn i {
+    font-size: 18px;
+}
+
     </style>
 </head>
 <body>
+    <a href="{{url('/')}}" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
     <div class="wrapper">
         <div class="title-text">
             <div class="title login active">Login</div>
@@ -200,10 +229,10 @@
                     <div class="link">
                         Not a member? <a href="#" onclick="document.getElementById('signup').click()">Signup now</a>
                     </div>
-                    {{-- <div class="social-login">
-                        <a href="#" class="google"><i class="fab fa-google"></i> Google</a>
-                        <a href="#" class="facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
-                    </div> --}}
+                    <div class="social-login">
+                        <a href="{{route('auth.google')}}" class="google"><i class="fab fa-google"></i> Google</a>
+                        {{-- <a href="#" class="facebook"><i class="fab fa-facebook-f"></i> Facebook</a> --}}
+                    </div>
                 </form>
                 
                 <form action="{{ route('register') }}" method="POST" class="signup">

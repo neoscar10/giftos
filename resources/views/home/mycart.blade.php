@@ -43,16 +43,14 @@
                                 <div class="input-group justify-content-center" style="max-width: 120px;">
                                     <button class="btn btn-outline-secondary btn-sm" 
                                             onclick="updateQuantity(event, {{$data->id}}, 'decrease')">−</button>
-                                    <input type="number" class="form-control text-center" 
+                                    <input type="number" class="form-control text-center"
+                                            name="quantity" 
                                            value="{{$data->quantity}}" 
                                            id="quantity-{{$data->id}}" 
                                            readonly>
                                     <button class="btn btn-outline-secondary btn-sm" 
                                             onclick="updateQuantity(event, {{$data->id}}, 'increase')">+</button>
-                                </div>
-
-                                
-                                
+                                </div>   
                             </td>
                             
                             <td>
@@ -61,7 +59,7 @@
                             <td>
                                 <a class="" href="{{url('deleteCartIten', $data->id)}}">
                                     <i class="fas fa-times" style="color: red;"></i>
- Remove
+                                        <span>Remove</span>
                                 </a>
                             </td>
                         </tr>
