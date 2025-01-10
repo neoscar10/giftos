@@ -4,6 +4,25 @@
     @include('admin.css')
 
     <style>
+      pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .pagination a {
+        color: #2c3e50;
+        padding: 8px 16px;
+        margin: 0 5px;
+        text-decoration: none;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .pagination a:hover {
+        background-color: #ecf0f1;
+      }
+      
       table {
         border: 2px solid grey;
         text-align: center;
@@ -12,7 +31,7 @@
       }
       
       th {
-        padding: 10px;
+        padding: 2px;
         font-size: 18px;
         font-weight: bold;
         text-align: center;
@@ -20,7 +39,7 @@
       
       td {
         border: 1px solid grey;
-        padding: 10px;
+        padding: 2px;
       }
       
       .table_center {
@@ -31,7 +50,7 @@
       }
 
       .btn {
-        padding: 8px 16px;
+        padding: 4px 8px;
         border-radius: 5px;
         color: white;
         font-weight: bold;
@@ -55,7 +74,7 @@
       }
 
       .container-fluid {
-        padding: 0 30px;
+        padding: 0 10px;
       }
      
 
@@ -92,6 +111,7 @@
                   <th>Phone</th>
                   <th>Product title</th>
                   <th>Price</th>
+                  <th>Quantity</th>
                   <th>Date</th>
                   <th>Image</th>
                   <th>Payment Status</th>
@@ -108,6 +128,7 @@
                     <td>{{$order->phone}}</td>
                     <td>{{$order->product->title}}</td>
                     <td>${{$order->product->price}}</td>
+                    <td>{{$order->qnty}}</td>
                     <td>{{$order->created_at->format('d M, Y')}}</td>
                     <td>
                       <img height="30" width="50" src="/products/{{$order->product->image}}" alt="">
@@ -134,6 +155,9 @@
                 @endforeach
               </tbody>
             </table>
+          </div>
+          <div class="div_deg">
+            {{$orders->onEachSide(1)->links()}}
           </div>
         </div>
       </div>

@@ -36,8 +36,14 @@ class AdminController extends Controller
     public function delete_category($id){
         $category = Category::find($id);
         $category->delete();
-        toastr()->addSuccess(" $category->category_name deleted");
         return redirect()->back()->with("success","Category deleted");
+    }
+
+    public function delete_appointment($id){
+        $appointment= Appointments::find($id);
+        $appointment->delete();
+        return redirect()->back()->with("success", "Appointment deleted");
+
     }
 
     public function edit_category($id){
@@ -138,7 +144,8 @@ class AdminController extends Controller
     }
 
     public function view_orders(){
-        $orders = Order::all();
+        $orders = Order::orderBy('created_at', 'desc')->paginate(10);;
+
         return view('admin.view_orders', compact('orders'));
     }
 
@@ -195,7 +202,7 @@ class AdminController extends Controller
     }
 
     public function view_appointments(){
-        $appointments = Appointments::all();
+        $appointments = Appointments::orderBy('created_at', 'desc')->paginate(5);
         return view('admin.view_appointments', compact('appointments'));
     }
 

@@ -51,10 +51,13 @@
                 <select id="category" name="appointment_time_id" required>
                     <option value="" disabled selected>Choose a Schedule</option>
                     @foreach ($bookings as $booking)
+                        @if ($booking->status == "Available")
                         <option value="{{ $booking->id }}">
                             {{ \Carbon\Carbon::parse($booking->start_time)->format('F j, Y, g:i A') }} to 
                             {{ \Carbon\Carbon::parse($booking->end_time)->format('h:i A') }}
                         </option>
+                        @endif
+                        
                     @endforeach
                 </select>
             </div>

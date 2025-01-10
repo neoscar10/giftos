@@ -104,6 +104,7 @@
               <tr>
                 <th>Schedule Begin</th>
                 <th>Schedule End</th>
+                <th>Status</th>
                 <th>Update</th>
                 <th>Delete</th>
               </tr>
@@ -114,6 +115,7 @@
                   {{-- {{\Carbon\Carbon::parse($booking->start_time)->format('F j, Y, g:i A ')}} --}}
                   <td>{{\Carbon\Carbon::parse($schedule->start_time)->format('F j, Y, g:i A ')}}</td>
                   <td>{{\Carbon\Carbon::parse($schedule->end_time)->format('F j, Y, g:i A ')}}</td>
+                  <td>{{$schedule->status}}</td>
                   <td>
                     <a class="btn btn-success" href="{{url('edit_time_slot', $schedule->id)}}">
                       <i class="fas fa-edit"></i> Edit

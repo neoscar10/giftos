@@ -35,9 +35,6 @@ class HomeController extends Controller
         } else {
             $count = '';
         }
-        
-        
-      
         return view("home.index", compact("products", 'count'));
     }
 
@@ -53,15 +50,11 @@ class HomeController extends Controller
         } else {
             $count = '';
         }
-        
-      
-
         return view("home.index", compact('products', 'count'));
     }
 
     public function product_details($id){
         $product = Products::find($id);
-
         if (Auth::id()) {
             // for showing cart
             $user = Auth::user();
@@ -71,8 +64,6 @@ class HomeController extends Controller
         } else {
             $count = '';
         }
-        
-
         return view("home.product_details", compact("product", "count"));
     }
 
@@ -144,7 +135,6 @@ public function mycart()
                 'quantity' => $cart[$product->id]['quantity'],
             ];
         }
-
         $count = array_sum(array_column($cart, 'quantity'));
     }
 
@@ -204,6 +194,7 @@ public function mycart()
             $order->phone = $phone;
             $order->user_id = $userid;
             $order->product_id = $data->product_id;
+            $order->qnty = $data->quantity;
             
            
             

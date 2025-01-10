@@ -128,12 +128,14 @@
             </table>
           </div>
 
-          <!-- Pagination -->
-          <div class="div_deg">
-            {{$products->onEachSide(1)->links()}}
-          </div>
+         
 
         </div>
+        
+      </div>
+       <!-- Pagination -->
+       <div class="div_deg pagination">
+        {{$products->onEachSide(1)->links()}}
       </div>
     </div>
 

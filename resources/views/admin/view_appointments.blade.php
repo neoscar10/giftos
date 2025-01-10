@@ -6,7 +6,7 @@
     <style type="text/css">
       .form-container {
           background-color: #2c3e50;
-          padding: 30px;
+          padding: 10px;
           border-radius: 10px;
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
           color: #ecf0f1;
@@ -20,7 +20,7 @@
           width: 300px;
           height: 50px;
           margin-right: 10px;
-          padding: 10px;
+          padding: 2px;
       }
 
       .form-container input[type="datetime-local"]:focus {
@@ -35,7 +35,7 @@
 
       .table-container table {
           border-collapse: collapse;
-          width: 80%;
+          width: 100%;
           margin: auto;
           text-align: center;
           background-color: #34495e;
@@ -73,6 +73,18 @@
       .btn-danger:hover {
           background-color: #e74c3c;
       }
+      .pagination{
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+      }
+      .heading{
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     </style>
   </head>
 
@@ -81,6 +93,7 @@
     @include('admin.sidebar')
 
     <div class="page-content">
+      <h1 class="heading">Appointments</h1>
       <div class="container mt-5">
         <!-- Category Table -->
         <div class="table-container">
@@ -88,7 +101,8 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Meeting Time</th>
+                <th>Meeting Schedule</th>
+                <th>Booking Date</th>
                 <th>Meeting Mode</th>
                 <th>Phone</th>
                 <th>Email</th>
@@ -103,6 +117,7 @@
                   {{-- {{\Carbon\Carbon::parse($booking->start_time)->format('F j, Y, g:i A ')}} --}}
                   <td>{{$appointment->user->name}}</td>
                   <td>{{$appointment->appointment_time}}</td>
+                  <td>{{\Carbon\Carbon::parse($appointment->created_at)->format('F j, Y, g:i A ')}}</td>
                   <td>{{$appointment->meeting_mode}}</td>
                   <td>{{$appointment->user->phone}}</td>
                   <td>{{$appointment->user->email}}</td>
@@ -117,6 +132,10 @@
             </tbody>
           </table>
         </div>
+               <!-- Pagination -->
+       <div class="pagination">
+        {{$appointments->onEachSide(1)->links()}}
+      </div>
       </div>
     </div>
 
