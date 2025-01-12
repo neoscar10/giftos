@@ -1,5 +1,5 @@
 <header class="header_section">
-  <nav class="navbar navbar-expand-lg custom_nav-container">
+  <nav class="navbar navbar-expand-lg custom_nav-container" style="z-index: 1">
     <span>
       <img src="images/logo.jpeg" alt="Logo" style="width: 40px; height: 40px; vertical-align: middle; margin-right: 10px; border-radius: 50%;">
       <span class="" style="font-family: 'Brush Script MT', cursive; font-weight: bold; font-size: 24px;">GANI CLOTHING LINE</span>
@@ -23,7 +23,7 @@
           <a class="nav-link" href="{{url('why')}}">Why Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="contact.html">Contact Us</a>
+          <a class="nav-link" href="{{url('contact')}}">Contact Us</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="testimonial.html"></a>

@@ -94,9 +94,12 @@
                     <textarea name="address" id="address" rows="3" class="form-control" required>{{Auth::user()->address}}</textarea>
                 </div>
 
+
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">Cash on Delivery</button>
-                    <a class="btn btn-success" href="{{url('stripe', $total)}}">Make Payment</a>
+                    <a class="btn btn-success" href="{{ url('stripe', ['total' => $total, 'type' => 'product']) }}">Pay with Card</a>
+                    <a class="btn btn-success" href="{{ url('pay', ['total' => $total, 'type' => 'product']) }}">Pay with PayPal</a>
+                    
                 </div>
             </form>
         </div>

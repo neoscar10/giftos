@@ -155,7 +155,7 @@ class AdminController extends Controller
     }
 
     public function not_delivered(){
-        $orders = Order::where('status', 'On the way')->orWhere('status', 'in progress ')->get();
+        $orders = Order::where('status', 'On the way')->orWhere('status', 'in progress ')->orderBy('created_at', 'DESC')->get();
         return view('admin.not_delivered', compact('orders'));
     }
 
@@ -206,9 +206,6 @@ class AdminController extends Controller
         return view('admin.view_appointments', compact('appointments'));
     }
 
-    
-
-    
 
     // $category = new Category();
 
@@ -219,8 +216,6 @@ class AdminController extends Controller
         
     //     return redirect()->back()->with("success","Successfully added catecory");
 
-
-    
 
     public function download_ppdf($id){
         $data = Order::find($id);

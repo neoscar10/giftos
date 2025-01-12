@@ -41,6 +41,8 @@
 
     @include('home.products')  
 
+    @include('home.footer')
+
  
 </body>
 

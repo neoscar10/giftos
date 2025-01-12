@@ -11,13 +11,14 @@
     <div class="container" style="width: 500px">
         <div class="header">
             <h1>Time Slot Reserved</h1>
-            <p>Make Payment within 5mins or reservation will be revoked</p>
+            <p>Make Payment within 5 minutes or reservation will be revoked</p>
         </div>
 
         <div class="justify-content-space-between">
-            <a class="btn btn-secondary" href="{{url('/')}}">Pay later</a>
-            <a type="submit" class="btn btn-primary">Pay with Paypall</a>
-            <a class="btn btn-success" href="{{url('stripe')}}">Make with card</a>
+            <a class="btn btn-secondary" href="{{url('stripe')}}">Pay later</a>
+            <a class="btn btn-success" href="{{ url('stripe', ['total' => $total, 'type' => 'booking', 'booking_id' => $booking_id]) }}">Pay with Card</a>
+            <a class="btn btn-success" href="{{ url('pay', ['total' => $total, 'type' => 'booking', 'booking_id' => $booking_id]) }}">Pay with PayPal</a>
+
         </div>
        
         

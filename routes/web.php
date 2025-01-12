@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConsultController;
 
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Middleware\Admin;
@@ -68,6 +69,7 @@ route::get('shop', [HomeController::class,'shop']);
 route::get('why', [HomeController::class,'why']);
 Route::get('/cart-count', [HomeController::class, 'getCartCount']);
 route::get('search', [HomeController::class,'search']);
+route::get('contact', [HomeController::class, 'contact']);
 
 // Consultation routes
 route::get('book_consultation', [ConsultController::class,'book_consultation'])->middleware('auth', 'verified');
@@ -77,23 +79,20 @@ route::get('test', [ConsultController::class,'test'])->middleware('auth', 'admin
 route::get('manage_time_slots', [ConsultController::class,'manage_time_slots'])->middleware('auth', 'admin');
 route::post('upload_booking', [ConsultController::class,'upload_booking'])->middleware('auth', 'verified');
 route::get('view_appointments', [AdminController::class,'view_appointments'])->middleware('auth', 'admin');
-route::get('make_booking_payment', [ConsultController::class,'make_booking_payment'])->middleware('auth', 'verified');
-
-
-
-
-
-
-
-
-
-
+route::get('make_booking_payment/{booking_id}', [ConsultController::class,'make_booking_payment'])->middleware('auth', 'verified');
+route::get('delete_time_slot/{id}', [ConsultController::class,'delete_time_slot'])->middleware(['auth', 'admin']);
+route::get('edit_time_slot/{id}', [ConsultController::class, 'edit_time_slot'])->middleware(['auth', 'admin']);
+route::post('update_time_slot/{id}', [ConsultController::class,'update_time_slot'])->middleware(['auth', 'admin']);
 
 
 // stripe payment route
 Route::controller(HomeController::class)->group(function(){
 
-    Route::get('stripe/{total}', 'stripe');
-    Route::post('stripe/{total}', 'stripePost')->name('stripe.post');
+    Route::get('stripe/{total}/{type}/{booking_id?}', 'stripe');
+    Route::post('stripe/{total}/{type}/{booking_id?}', 'stripePost')->name('stripe.post');
 
 });
+// PayPal Payment Integration
+Route::get('pay/{total}/{type}/{booking_id?}', [PayPalController::class, 'pay'])->name('pay');
+Route::get('success', [PayPalController::class, 'success']);
+Route::get('error', [PayPalController::class, 'error']);

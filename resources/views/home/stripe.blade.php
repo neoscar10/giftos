@@ -59,7 +59,7 @@
 
                             role="form" 
 
-                            action="{{ route('stripe.post', $total) }}" 
+                            action="{{ route('stripe.post', ['total' => $total, 'type' => $type, 'booking_id' => $booking_id]) }}" 
 
                             method="post" 
 

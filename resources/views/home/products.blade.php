@@ -29,7 +29,7 @@
                   </h6>
                 </div>
               </a> 
-              <a href="{{url('add_cart', $product->id)}}" class="btn btn-primary add-to-cart-btn text-white">
+              <a href="{{url('add_cart', $product->id)}}" class="btn btn-primary add-to-cart-btn text-white w-100">
                 <i class="fas fa-shopping-cart "></i> Add to Cart
             </a>
             </div>

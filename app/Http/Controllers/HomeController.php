@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Cart;
@@ -25,7 +26,7 @@ class HomeController extends Controller
     }
 
     public function home(){
-        $products = Products::all();
+        $products = Products::orderBy('created_at', 'DESC')->get();
         if (Auth::id()) {
             // for showing cart
             $user = Auth::user();
@@ -39,7 +40,7 @@ class HomeController extends Controller
     }
 
     public function login_home(){
-        $products = Products::all();
+        $products = Products::orderBy('created_at', 'DESC')->get();
 
         if (Auth::id()) {
             // for showing cart
@@ -195,11 +196,13 @@ public function mycart()
             $order->user_id = $userid;
             $order->product_id = $data->product_id;
             $order->qnty = $data->quantity;
-            
-           
-            
 
             $order->save();
+
+            // reduce quantity of a product when an order is made for it
+            $bought_product = Products::find($data->product_id);
+            $bought_product->quantity--;
+            $bought_product->save();
         }
 
         $cartDatas = Cart::where('user_id', $userid)->get();
@@ -240,7 +243,7 @@ public function mycart()
             $user = Auth::user();
             $userid = $user->id;
             $count = Cart::where('user_id', $userid)->sum('quantity');
-            $products = Products::all();
+            $products = Products::orderBy('created_at', 'DESC')->get();
 
 
             $orders = Order::where('user_id', $userid)->get();
@@ -275,42 +278,60 @@ public function mycart()
              return view('home.why', compact('count'));
         }
 
+        public function contact(){
+            //default line for cart count data
+            if (Auth::id()) {
+                // for showing cart
+                $user = Auth::user();
+                $userid = $user->id;
+                $count = Cart::where('user_id', $userid)->sum('quantity');
+                $orders = Order::where('user_id', $userid)->get();
+                //end of side
+                $cartData = Cart::where('user_id', $userid)->get();
+            } else {
+                $count = '';
+            }
+                 return view('home.contact', compact('count'));
+            }
+    
+
         public function search(Request $request){
+            //default line for cart count data
+            if (Auth::id()) {
+                // for showing cart
+                $user = Auth::user();
+                $userid = $user->id;
+                $count = Cart::where('user_id', $userid)->sum('quantity');
+            
+
+
+                $orders = Order::where('user_id', $userid)->get();
+                //end of side
+                $cartData = Cart::where('user_id', $userid)->get();
+            } else {
+                $count = '';
+            }
+
+
             $search = $request->search;
 
             $products = Products::where('title','LIKE','%'.$search.'%')->orWhere('category','LIKE','%'.$search.'%')->paginate(3);
 
-            return view('home.shop', compact('products'));
+            return view('home.shop', compact('products', 'count'));
         }
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 
     //stripe integration
-    public function stripe($total)
+    public function stripe($total, $type, $booking_id=null)
 
     {
-        return view('home.stripe', compact('total'));
+        return view('home.stripe', compact('total', 'type', 'booking_id'));
     }
 
-    public function stripePost(Request $request, $total)
+    public function stripePost(Request $request, $total, $type, $booking_id=null)
 
     {
 
@@ -319,46 +340,51 @@ public function mycart()
     
 
         Stripe\Charge::create ([
-
                 "amount" => $total * 100,
-
                 "currency" => "usd",
-
                 "source" => $request->stripeToken,
-
                 "description" => "Payment from Gani Clothing Line" 
-
         ]);
 
       //this particular datas are gotten from the user table and not the probarbly updated address
         $name = Auth::user()->name;
-        $address = Auth::user()->address;
-        $phone =  Auth::user()->phone;
-        $userid = Auth::user()->id;
-        $cartData = Cart::where('user_id', $userid)->get();
+        if ($type == 'product'){
+            $address = Auth::user()->address;
+            $phone =  Auth::user()->phone;
+            $userid = Auth::user()->id;
+            $cartData = Cart::where('user_id', $userid)->get();
+            
+            foreach ($cartData as $data ){
+                $order = new Order;
+                $order->user_id = $userid;
+                $order->name = $name;
+                $order->rec_address = $address;
+                $order->phone = $phone;
+                $order->user_id = $userid;
+                $order->product_id = $data->product_id;
+                $order->payment_status = "Paid";
+    
+                $order->save();
+            }
 
-        foreach ($cartData as $data ){
-            $order = new Order;
-            $order->user_id = $userid;
-            $order->name = $name;
-            $order->rec_address = $address;
-            $order->phone = $phone;
-            $order->user_id = $userid;
-            $order->product_id = $data->product_id;
-            $order->payment_status = "Paid";
+            $cartDatas = Cart::where('user_id', $userid)->get();
 
-            $order->save();
-        }
+            foreach ($cartDatas as $data){
+                // because here each data has an id
+                $dataToDelete = Cart::find($data->id);
+                $dataToDelete->delete();
+            }
 
-        $cartDatas = Cart::where('user_id', $userid)->get();
+            return redirect('mycart')->with('success','Order placed');
+        }elseif ($type=='booking'){
+            $booked_slot = Booking::find($booking_id);
+            $booked_slot->status = 'Booked';
+            $booked_slot->save();
+            return redirect('/')->with('success', 'Payment successfully made');
+        }       
+       
 
-        foreach ($cartDatas as $data){
-            // because here each data has an id
-            $dataToDelete = Cart::find($data->id);
-            $dataToDelete->delete();
-        }
-
-        return redirect('mycart')->with('success','Order placed');
+        
 
     }
 
