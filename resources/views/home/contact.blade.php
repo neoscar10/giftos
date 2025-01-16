@@ -28,25 +28,26 @@
             </div>
           </div>
           <div class="col-md-6 col-lg-5 px-0">
-            <form action="#">
+
+            <form action="{{ route('contactMail') }}" method="POST">
+              @csrf
               <div>
-                <input type="text" placeholder="Name" />
+                <input type="text" placeholder="Name" name="name" required />
               </div>
               <div>
-                <input type="email" placeholder="Email" />
+                <input type="email" placeholder="Email" name="email" required />
               </div>
               <div>
-                <input type="text" placeholder="Phone" />
+                <input type="text" placeholder="Phone" name="phone" required />
               </div>
               <div>
-                <input type="text" class="message-box" placeholder="Message" />
+                <textarea class="message-box w-100" placeholder="Message" name="message" rows="5" required></textarea>
               </div>
               <div class="d-flex ">
-                <button>
-                  SEND
-                </button>
+                <button type="submit">SEND</button>
               </div>
             </form>
+            
           </div>
         </div>
       </div>

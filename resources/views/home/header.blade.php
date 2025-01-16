@@ -1,8 +1,25 @@
 <header class="header_section">
+  @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
   <nav class="navbar navbar-expand-lg custom_nav-container" style="z-index: 1">
     <span>
       <img src="images/logo.jpeg" alt="Logo" style="width: 40px; height: 40px; vertical-align: middle; margin-right: 10px; border-radius: 50%;">
-      <span class="" style="font-family: 'Brush Script MT', cursive; font-weight: bold; font-size: 24px;">GANI CLOTHING LINE</span>
+      <span class="" style="font-family: 'Brush Script MT', cursive; font-weight: bold; font-size: 24px;">Ggani Clothing Line</span>
     </span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class=""></span>
@@ -41,6 +58,9 @@
                 <span class="cart-count p-1">{{$count}}</span>
               </i>
             </a>
+            
+
+           <a href="{{url('notification')}}"> <i class="fa-solid fa-bell"></i></a>
 
             @include('home.moveable_cart')
             
@@ -56,6 +76,7 @@
               <span class="cart-count p-1">{{$count}}</span>
             </i>
           </a>
+          @include('home.moveable_cart')
 
             <a href="{{url('/login')}}">
               <i class="fa fa-user" aria-hidden="true"></i>

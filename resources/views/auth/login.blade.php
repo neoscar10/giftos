@@ -208,7 +208,7 @@
                 <input type="radio" name="slide" id="login" checked>
                 <input type="radio" name="slide" id="signup">
                 <label for="login" class="slide login">Login</label>
-                <label for="signup" class="slide signup">Signup</label>
+                <label for="signup" class="">Signupp</label>
                 <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
@@ -227,7 +227,8 @@
                         <a href="{{ route('password.request') }}">Forgot password?</a>
                     </div>
                     <div class="link">
-                        Not a member? <a href="#" onclick="document.getElementById('signup').click()">Signup now</a>
+                        {{-- Not a member? <a href="#" onclick="document.getElementById('signup').click()">Signup now</a> --}}
+                        Not a member? <a href="{{url('/register')}}" >Signup now</a>
                     </div>
                     <div class="social-login">
                         <a href="{{route('auth.google')}}" class="google"><i class="fab fa-google"></i> Google</a>
@@ -237,15 +238,26 @@
                 
                 <form action="{{ route('register') }}" method="POST" class="signup">
                     @csrf
+                    {{-- Name --}}
                     <div class="field">
                         <input type="text" name="name" placeholder="Name" required>
                     </div>
+                    {{-- email --}}
                     <div class="field">
                         <input type="email" name="email" placeholder="Email Address" required>
+                    </div>
+                    {{-- Phone --}}
+                    <div class="field">
+                        <input type="text" name="phone"  placeholder="Phone Number" required>
+                    </div>
+                    {{-- Address --}}
+                    <div class="field">
+                        <input type="text" name="address" placeholder="Address" required>
                     </div>
                     <div class="field">
                         <input type="password" name="password" placeholder="Password" required>
                     </div>
+
                     <div class="field">
                         <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
                     </div>

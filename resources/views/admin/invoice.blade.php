@@ -92,12 +92,16 @@
                     <tr>
                         <th>Product Title</th>
                         <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{$data->product->title}}</td>
                         <td>${{$data->product->price}}</td>
+                        <td>{{$data->qnty}}</td>
+                        <td>${{$data->qnty * $data->product->price}}</td>
                     </tr>
                 </tbody>
             </table>

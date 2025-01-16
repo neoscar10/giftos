@@ -17,10 +17,25 @@ body {
   font-size: 10px;
 }
 
+/* .notification-count {
+  position: absolute;
+  
+  background-color: #f39c12;
+  color: white;
+  border-radius: 50%;
+  font-size: 8px;
+} */
 /* Ensure the cart icon is positioned relative for the count to be positioned correctly */
 .navbar .fa-shopping-cart {
   position: relative;
   font-size: 24px;  /* Adjusted the cart icon size */
+}
+
+
+
+.nav .fa-bell{
+  position: relative;
+  font-size: 24px;
 }
 
 .layout_padding {

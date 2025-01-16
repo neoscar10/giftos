@@ -38,6 +38,9 @@ route::post('add_category', [AdminController::class,'add_category'])->middleware
 route::get('delete_category/{id}', [AdminController::class,'delete_category'])->middleware(['auth', 'admin']);
 route::get('delete_appointment/{id}', [AdminController::class,'delete_appointment'])->middleware(['auth', 'admin']);
 
+//contactMail
+Route::post('contactMail', [HomeController::class, 'sendContactMail'])->name('contactMail');
+
 
 route::get('edit_category/{id}', [AdminController::class,'edit_category'])->middleware(['auth', 'admin']);
 route::post('update_category/{id}', [AdminController::class,'update_category'])->middleware(['auth', 'admin']);
@@ -61,6 +64,7 @@ route::get('on_the_way/{id}', [AdminController::class,'on_the_way'])->middleware
 route::get('product_details/{id}', [HomeController::class,'product_details']);
 Route::get('add_cart/{id}', [HomeController::class, 'add_cart']);
 Route::get('mycart', [HomeController::class, 'mycart'])->middleware(['auth', 'verified']);
+route::get('notification', [Homecontroller::class, 'notification'])->middleware(['auth', 'verified']);
 route::get('deleteCartIten/{id}', [HomeController::class,'deleteCartIten'])->middleware(['auth', 'verified']);
 Route::post('/updateCartQuantity/{id}', [HomeController::class, 'updateCartQuantity']);
 route::post('confirm_order', [HomeController::class,'confirm_order'])->middleware(['auth', 'verified']);

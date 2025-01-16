@@ -77,6 +77,7 @@ class PayPalController extends Controller
                             $order->phone = $phone;
                             $order->product_id = $data->product_id;
                             $order->payment_status = "Paid";
+                            $order->qnty = $data->quantity;
                             $order->save();
                         }
     

@@ -96,10 +96,9 @@
 
 
                 <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary">Cash on Delivery</button>
-                    <a class="btn btn-success" href="{{ url('stripe', ['total' => $total, 'type' => 'product']) }}">Pay with Card</a>
-                    <a class="btn btn-success" href="{{ url('pay', ['total' => $total, 'type' => 'product']) }}">Pay with PayPal</a>
-                    
+                    <button type="submit" class="btn btn-secondary">Pay on Delivery</button>
+                    <a class="btn btn-success" href="{{ url('stripe', ['total' => $total, 'type' => 'product']) }}"><i class="fa-duotone fa-solid fa-credit-card"></i> Pay with Card</a>
+                    <a class="btn btn-primary" href="{{ url('pay', ['total' => $total, 'type' => 'product']) }}"><i class="fa-brands fa-paypal"></i>Pay with PayPal</a>
                 </div>
             </form>
         </div>

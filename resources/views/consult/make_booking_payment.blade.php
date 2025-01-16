@@ -15,7 +15,7 @@
         </div>
 
         <div class="justify-content-space-between">
-            <a class="btn btn-secondary" href="{{url('stripe')}}">Pay later</a>
+            <a class="btn btn-secondary" href="{{url('/')}}">Pay later</a>
             <a class="btn btn-success" href="{{ url('stripe', ['total' => $total, 'type' => 'booking', 'booking_id' => $booking_id]) }}">Pay with Card</a>
             <a class="btn btn-success" href="{{ url('pay', ['total' => $total, 'type' => 'booking', 'booking_id' => $booking_id]) }}">Pay with PayPal</a>
 

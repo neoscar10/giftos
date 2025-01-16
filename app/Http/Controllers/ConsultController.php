@@ -43,12 +43,18 @@ class ConsultController extends Controller
         // Get the selected booking ID from available bookings
         $selected_time_slot = $request->appointment_time_id;
         $data = Booking::find($selected_time_slot);
+
+        
     
         if (!$data || $data->status !== 'Available') {
             return redirect()->back()->with('error', 'The selected slot is no longer available.');
         }
     
         $user = Auth::user();
+
+        // updating the time slot selected to now have a reserved by field populated
+        $data->reserved_by = $user->id;
+
         $appointment->user_id = $user->id;
         $appointment->appointment_time = Carbon::parse($data->start_time)->format('F j, Y, g:i A') . ' to ' . \Carbon\Carbon::parse($data->end_time)->format('h:i A');
         $appointment->meeting_mode = $request->meeting_mode;
@@ -62,7 +68,7 @@ class ConsultController extends Controller
         $data->save();
     
         // Dispatch the job to revert the status after 5 minutes
-        RevertBookingIfNotPaid::dispatch($data->id)->delay(now()->addMinutes(2));
+        RevertBookingIfNotPaid::dispatch($data->id)->delay(now()->addMinutes(5));
         
     
         // Send email
