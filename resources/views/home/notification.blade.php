@@ -17,7 +17,7 @@
         @include('home.header')
 
         <div class="container my-5">
-            <h2 class="text-center mb-4">Payment Notifications</h2>
+            <h2 class="text-center mb-4">Appointment Notification</h2>
 
             @if ($notifications->isEmpty())
                 <div class="alert alert-info text-center">

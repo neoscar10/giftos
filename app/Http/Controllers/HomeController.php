@@ -126,9 +126,10 @@ public function mycart()
             $cartData = Cart::where('user_id', $user_id)->get();
             $count = $cartData->sum('quantity');
             $notifications = collect();
+            // Total is the static fee for booking
             $total = 20;
             // slot reserved by this particular user
-            $reserved_slot = Booking::where('reserved_by', $user_id)->first();
+            $reserved_slot = Booking::where('reserved_by', $user_id)->where('status', 'Reserved')->first();
             if ($reserved_slot) {
                 $booking_id = $reserved_slot->id;
                 $notifications = Appointments::where('user_id', $user_id)->get();

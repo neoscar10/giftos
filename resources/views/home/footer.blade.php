@@ -101,14 +101,11 @@
           if (cartCountElement) {
             cartCountElement.textContent = data.count;
           }
+          updateCartCount();
         })
         .catch(error => console.error('Error fetching cart count:', error));
     }
   
-    // Call the function periodically (e.g., every 10 seconds)
-    setInterval(updateCartCount, 1000);
-  
-    // Optionally, call it on page load
     updateCartCount();
   </script>
   

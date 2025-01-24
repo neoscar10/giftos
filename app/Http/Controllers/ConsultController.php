@@ -60,6 +60,7 @@ class ConsultController extends Controller
         $appointment->meeting_mode = $request->meeting_mode;
         $appointment->phone = $user->phone;
         $appointment->email = $user->email;
+        $appointment->booking_id = $data->id;
     
         $appointment->save();
     
@@ -68,7 +69,7 @@ class ConsultController extends Controller
         $data->save();
     
         // Dispatch the job to revert the status after 5 minutes
-        RevertBookingIfNotPaid::dispatch($data->id)->delay(now()->addMinutes(5));
+        RevertBookingIfNotPaid::dispatch($data->id)->delay(now()->addMinutes(1));
         
     
         // Send email
